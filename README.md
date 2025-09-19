@@ -1,13 +1,13 @@
-# Dev Server Manager
+# dev
 
-[![npm version](https://badge.fury.io/js/dev-server-manager.svg)](https://badge.fury.io/js/dev-server-manager)
+[![npm version](https://badge.fury.io/js/dev.svg)](https://badge.fury.io/js/dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](https://github.com/wilmoore/dev-server-manager)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](https://github.com/wilmoore/dev)
 
 > A sophisticated development server management tool with process monitoring, health checks, and log management.
 
-![Dev Server Manager Banner](./assets/banner.png)
+![dev Banner](./assets/banner.png)
 
 ## ✨ Features
 
@@ -26,32 +26,32 @@
 
 ```bash
 # Install globally
-npm install -g dev-server-manager
+npm install -g dev
 
 # Or use with npx
-npx dev-server-manager --help
+npx dev --help
 ```
 
 ### Basic Usage
 
 ```bash
 # Initialize in your project
-npx dev-server-manager init
+npx dev init
 
 # Start the first configured server
-npx dev-server-manager start
+npx dev start
 
 # Start a specific server
-npx dev-server-manager start frontend
+npx dev start frontend
 
 # Check running servers
-npx dev-server-manager status
+npx dev status
 
 # View logs
-npx dev-server-manager logs
+npx dev logs
 
 # Stop all servers
-npx dev-server-manager stop
+npx dev stop
 ```
 
 ## 📖 Documentation
@@ -60,13 +60,13 @@ npx dev-server-manager stop
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `init` | Initialize .dev directory and infer servers from package.json | `dsm init` |
-| `start [server]` | Start a server (default: first server) | `dsm start frontend` |
-| `stop [server]` | Stop server(s) (default: all) | `dsm stop backend` |
-| `status` | Show running servers with health status | `dsm status` |
-| `port` | Show server ports | `dsm port` |
-| `logs [server]` | Monitor server logs in real-time | `dsm logs api` |
-| `cleanup` | Remove stale entries from PID tracking | `dsm cleanup` |
+| `init` | Initialize .dev directory and infer servers from package.json | `dev init` |
+| `start [server]` | Start a server (default: first server) | `dev start frontend` |
+| `stop [server]` | Stop server(s) (default: all) | `dev stop backend` |
+| `status` | Show running servers with health status | `dev status` |
+| `port` | Show server ports | `dev port` |
+| `logs [server]` | Monitor server logs in real-time | `dev logs api` |
+| `cleanup` | Remove stale entries from PID tracking | `dev cleanup` |
 
 ### Shortcuts
 
@@ -74,8 +74,8 @@ You can use server names directly as commands:
 
 ```bash
 # These are equivalent
-npx dev-server-manager start frontend
-npx dev-server-manager frontend
+npx dev start frontend
+npx dev frontend
 ```
 
 ### Configuration
@@ -138,14 +138,14 @@ your-project/
 
 ```bash
 # Use bat for syntax highlighting
-npx dev-server-manager start frontend --log-viewer "bat -f"
+npx dev start frontend --log-viewer "bat -f"
 
 # Use less for scrollable logs
-npx dev-server-manager start api --log-viewer "less +F"
+npx dev start api --log-viewer "less +F"
 
 # Set default via environment
 export DEV_LOG_VIEWER="bat -f"
-npx dev-server-manager start
+npx dev start
 ```
 
 ### Health Check Customization
@@ -173,7 +173,7 @@ The tool automatically monitors running processes and cleans up stale entries:
 
 ```bash
 # Check what's running
-npx dev-server-manager status
+npx dev status
 
 # Output:
 # Running servers:
@@ -181,7 +181,7 @@ npx dev-server-manager status
 #   backend: port 3001 (pid 12346) - healthy
 
 # Clean up any stale processes
-npx dev-server-manager cleanup
+npx dev cleanup
 ```
 
 ## 🛠️ Development
@@ -190,12 +190,12 @@ npx dev-server-manager cleanup
 
 ```
 src/
-├── DevServerManager.js  # Main orchestrator class
-├── ConfigManager.js     # Configuration management
-├── ProcessManager.js    # Process lifecycle management
-├── LogManager.js        # Log handling and viewing
-├── HealthChecker.js     # Server health verification
-└── index.js            # Public API exports
+├── dev.ts  # Main orchestrator function
+├── config.ts     # Configuration management
+├── process.ts    # Process lifecycle management
+├── log.ts        # Log handling and viewing
+├── health.ts     # Server health verification
+└── index.ts            # Public API exports
 ```
 
 ### Running Tests

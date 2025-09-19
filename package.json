@@ -1,5 +1,5 @@
 {
-  "name": "dev-server-manager",
+  "name": "dev",
   "version": "1.0.0",
   "description": "A sophisticated development server management tool with process monitoring, health checks, and log management",
   "keywords": [
@@ -24,37 +24,44 @@
     "url": "https://github.com/wilmoore/dev-server-manager/issues"
   },
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "dev-server-manager": "./bin/dev-server-manager.js",
-    "dsm": "./bin/dev-server-manager.js"
+    "dev": "./bin/dev"
   },
   "files": [
     "bin/",
-    "src/",
+    "dist/",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
   ],
   "scripts": {
-    "start": "node bin/dev-server-manager.js",
-    "test": "node --test test/*.test.js",
-    "test:watch": "node --test --watch test/*.test.js",
-    "lint": "eslint src/ bin/ test/",
-    "lint:fix": "eslint src/ bin/ test/ --fix",
-    "format": "prettier --write src/ bin/ test/ *.md",
-    "format:check": "prettier --check src/ bin/ test/ *.md",
+    "start": "node bin/dev",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "NODE_NO_WARNINGS=1 node_modules/.bin/ts-node --project tsconfig.node.json test/basic.test.ts",
+    "test:watch": "ts-node --watch test/basic.test.ts",
+    "lint": "eslint src/ bin/ test/ --ext .ts,.js",
+    "lint:fix": "eslint src/ bin/ test/ --ext .ts,.js --fix",
+    "format": "prettier --write src/ bin/ test/ *.md \"**/*.ts\"",
+    "format:check": "prettier --check src/ bin/ test/ *.md \"**/*.ts\"",
     "docs:generate": "node scripts/generate-docs.js",
-    "prepublishOnly": "npm run lint && npm run test",
-    "prepare": "chmod +x bin/dev-server-manager.js"
+    "prepublishOnly": "npm run build && npm run lint && npm run test",
+    "prepare": "chmod +x bin/dev"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.5.2",
     "eslint": "^9.36.0",
     "globals": "^16.4.0",
-    "prettier": "^3.6.2"
+    "jest": "^29.7.0",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
   },
   "preferGlobal": true,
   "os": [

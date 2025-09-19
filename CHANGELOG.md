@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-09-19
 
 ### Added
-- Initial release of dev-server-manager
+- Initial release of dev
 - Core server lifecycle management (start, stop, status)
 - Process monitoring with PID tracking
 - Health check system for server verification
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Health Checks**: Configurable HTTP health endpoints
 - **Template Variables**: {PORT} and {ROLE} substitution
 - **Environment Variables**: DEV_LOG_VIEWER support
-- **Aliases**: dsm shorthand command
+- **Aliases**: dev shorthand command
 - **Platform Support**: macOS and Linux
 
 ### Technical Details
