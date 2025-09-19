@@ -1,6 +1,6 @@
 # Assets
 
-This directory contains visual assets for the dev-server-manager project.
+This directory contains visual assets for the dev project.
 
 ## Files
 

@@ -15,13 +15,13 @@
   ],
   "author": "Wil Moore III <wil.moore@wilmoore.com>",
   "license": "MIT",
-  "homepage": "https://github.com/wilmoore/dev-server-manager#readme",
+  "homepage": "https://github.com/wilmoore/dev#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wilmoore/dev-server-manager.git"
+    "url": "git+https://github.com/wilmoore/dev.git"
   },
   "bugs": {
-    "url": "https://github.com/wilmoore/dev-server-manager/issues"
+    "url": "https://github.com/wilmoore/dev/issues"
   },
   "type": "module",
   "main": "dist/index.js",

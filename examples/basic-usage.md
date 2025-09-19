@@ -4,13 +4,13 @@
 
 ```bash
 # Initialize in your project
-npx dev-server-manager init
+npx dev init
 
 # Start default server
-npx dev-server-manager start
+npx dev start
 
 # Check status
-npx dev-server-manager status
+npx dev status
 ```
 
 ## Example Project Setup
@@ -28,7 +28,7 @@ npx dev-server-manager status
 }
 ```
 
-After running `npx dev-server-manager init`, you'll get:
+After running `npx dev init`, you'll get:
 
 ```json
 // .dev/servers.json
@@ -55,13 +55,13 @@ After running `npx dev-server-manager init`, you'll get:
 
 ```bash
 # Start frontend
-npx dev-server-manager start dev
+npx dev start dev
 
 # Start API in another terminal
-npx dev-server-manager start api
+npx dev start api
 
 # Check what's running
-npx dev-server-manager status
+npx dev status
 # Output:
 # Running servers:
 #   dev: port 3000 (pid 12345) - healthy
@@ -89,14 +89,14 @@ npx dev-server-manager status
 
 ```bash
 # View logs with default viewer
-npx dev-server-manager logs dev
+npx dev logs dev
 
 # Use custom log viewer
-npx dev-server-manager start api --log-viewer "bat -f"
+npx dev start api --log-viewer "bat -f"
 
 # Set environment variable
 export DEV_LOG_VIEWER="less +F"
-npx dev-server-manager logs
+npx dev logs
 ```
 
 ## Advanced Configuration
@@ -113,7 +113,7 @@ npx dev-server-manager logs
 }
 ```
 
-When running `npx dev-server-manager start multi-env`:
+When running `npx dev start multi-env`:
 - `{ROLE}` becomes `multi-env`
 - `{PORT}` becomes the assigned port (3000 or next available)
 
@@ -123,7 +123,7 @@ The tool automatically handles port conflicts:
 
 ```bash
 # If port 3000 is busy, it tries 3001, 3002, etc.
-npx dev-server-manager start dev
+npx dev start dev
 # Started on port 3001 (3000 was busy)
 ```
 
@@ -131,8 +131,8 @@ npx dev-server-manager start dev
 
 ```bash
 # Remove stale process entries
-npx dev-server-manager cleanup
+npx dev cleanup
 
 # Stop all servers
-npx dev-server-manager stop
+npx dev stop
 ```
