@@ -1,0 +1,64 @@
+{
+  "name": "dev-server-manager",
+  "version": "1.0.0",
+  "description": "A sophisticated development server management tool with process monitoring, health checks, and log management",
+  "keywords": [
+    "dev-server",
+    "development",
+    "server-management",
+    "process-manager",
+    "health-check",
+    "log-viewer",
+    "cli-tool",
+    "nodejs",
+    "development-workflow"
+  ],
+  "author": "Wil Moore III <wil.moore@wilmoore.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/wilmoore/dev-server-manager#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilmoore/dev-server-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wilmoore/dev-server-manager/issues"
+  },
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "dev-server-manager": "./bin/dev-server-manager.js",
+    "dsm": "./bin/dev-server-manager.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "start": "node bin/dev-server-manager.js",
+    "test": "node --test test/*.test.js",
+    "test:watch": "node --test --watch test/*.test.js",
+    "lint": "eslint src/ bin/ test/",
+    "lint:fix": "eslint src/ bin/ test/ --fix",
+    "format": "prettier --write src/ bin/ test/ *.md",
+    "format:check": "prettier --check src/ bin/ test/ *.md",
+    "docs:generate": "node scripts/generate-docs.js",
+    "prepublishOnly": "npm run lint && npm run test",
+    "prepare": "chmod +x bin/dev-server-manager.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2"
+  },
+  "preferGlobal": true,
+  "os": [
+    "darwin",
+    "linux"
+  ]
+}
