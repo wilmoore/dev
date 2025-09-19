@@ -7,15 +7,14 @@ const originalError = console.error;
 console.log = () => {}; // Suppress all output
 console.error = () => {}; // Suppress all errors
 
-// Import after mocking console
-const { dev } = await import('../dist/index.js');
-
-test('dev function exists', () => {
+test('dev function exists', async () => {
+  const { dev } = await import('../dist/index.js');
   assert.ok(dev);
   assert.strictEqual(typeof dev, 'function');
 });
 
-test('dev function is async', () => {
+test('dev function is async', async () => {
+  const { dev } = await import('../dist/index.js');
   assert.strictEqual(typeof dev, 'function');
   // Check that dev returns a Promise
   const result = dev();
@@ -30,6 +29,7 @@ const mockArgv = (args: string[]) => {
 };
 
 test('dev handles help command', async () => {
+  const { dev } = await import('../dist/index.js');
   const originalArgv = mockArgv(['help']);
   
   try {
@@ -45,6 +45,7 @@ test('dev handles help command', async () => {
 });
 
 test('dev handles status command', async () => {
+  const { dev } = await import('../dist/index.js');
   const originalArgv = mockArgv(['status']);
   
   try {
@@ -60,6 +61,7 @@ test('dev handles status command', async () => {
 });
 
 test('dev handles port command', async () => {
+  const { dev } = await import('../dist/index.js');
   const originalArgv = mockArgv(['port']);
   
   try {
@@ -75,6 +77,7 @@ test('dev handles port command', async () => {
 });
 
 test('dev handles cleanup command', async () => {
+  const { dev } = await import('../dist/index.js');
   const originalArgv = mockArgv(['cleanup']);
   
   try {
@@ -90,6 +93,7 @@ test('dev handles cleanup command', async () => {
 });
 
 test('dev handles init command', async () => {
+  const { dev } = await import('../dist/index.js');
   const originalArgv = mockArgv(['init']);
   
   try {

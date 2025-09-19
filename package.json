@@ -39,7 +39,9 @@
   "scripts": {
     "start": "node bin/dev",
     "build": "tsc -p tsconfig.build.json",
-    "test": "NODE_NO_WARNINGS=1 node_modules/.bin/ts-node --project tsconfig.node.json test/basic.test.ts",
+    "test": "npm run test:basic && npm run test:integration",
+    "test:basic": "NODE_NO_WARNINGS=1 node_modules/.bin/ts-node --project tsconfig.node.json test/basic.test.ts",
+    "test:integration": "NODE_NO_WARNINGS=1 node_modules/.bin/ts-node --project tsconfig.node.json test/integration.test.ts",
     "test:watch": "ts-node --watch test/basic.test.ts",
     "lint": "eslint src/ bin/ test/ --ext .ts,.js",
     "lint:fix": "eslint src/ bin/ test/ --ext .ts,.js --fix",
