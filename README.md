@@ -7,7 +7,7 @@
 
 > A sophisticated development server management tool with process monitoring, health checks, and log management.
 
-![dev Banner](./assets/banner.png)
+![Logo Banner](https://gist.github.com/user-attachments/assets/ce9daf7b-d40b-4866-b732-862d52aa5645)
 
 ## ✨ Features
 
