@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 import { writeFileSync, existsSync } from 'fs';
 import path from 'path';
-import { loadPidFile, savePidFile, isProcessRunning } from './process';
+import { loadPidFile, savePidFile, isProcessRunning } from './process.js';
 
 const getDevDir = (projectRoot: string) => path.join(projectRoot, '.dev');
 

@@ -1,7 +1,7 @@
-import { ensureDevDirExists, loadServersConfig, initializeDevEnvironment, Servers, ServerConfig } from './config';
-import { loadPidFile, savePidFile, isProcessRunning, findFreePort, detectPortFromProcess, startProcess, stopServers, cleanup, PidData } from './process';
-import { startLogViewer, showLogs } from './log';
-import { checkHealth } from './health';
+import { ensureDevDirExists, loadServersConfig, initializeDevEnvironment, Servers, ServerConfig } from './config.js';
+import { loadPidFile, savePidFile, isProcessRunning, findFreePort, detectPortFromProcess, startProcess, stopServers, cleanup, PidData } from './process.js';
+import { startLogViewer, showLogs } from './log.js';
+import { checkHealth } from './health.js';
 
 interface Arguments {
   command: string | null;

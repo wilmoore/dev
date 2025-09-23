@@ -26,32 +26,32 @@
 
 ```bash
 # Install globally
-npm install -g dev
+npm install -g @wilmoore/dev
 
 # Or use with npx
-npx dev --help
+npx @wilmoore/dev --help
 ```
 
 ### Basic Usage
 
 ```bash
 # Initialize in your project
-npx dev init
+npx @wilmoore/dev init
 
 # Start the first configured server
-npx dev start
+npx @wilmoore/dev start
 
 # Start a specific server
-npx dev start frontend
+npx @wilmoore/dev start frontend
 
 # Check running servers
-npx dev status
+npx @wilmoore/dev status
 
 # View logs
-npx dev logs
+npx @wilmoore/dev logs
 
 # Stop all servers
-npx dev stop
+npx @wilmoore/dev stop
 ```
 
 ## 📖 Documentation
@@ -60,13 +60,13 @@ npx dev stop
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `init` | Initialize .dev directory and infer servers from package.json | `dev init` |
-| `start [server]` | Start a server (default: first server) | `dev start frontend` |
-| `stop [server]` | Stop server(s) (default: all) | `dev stop backend` |
-| `status` | Show running servers with health status | `dev status` |
-| `port` | Show server ports | `dev port` |
-| `logs [server]` | Monitor server logs in real-time | `dev logs api` |
-| `cleanup` | Remove stale entries from PID tracking | `dev cleanup` |
+| `init` | Initialize .dev directory and infer servers from package.json | `@wilmoore/dev init` |
+| `start [server]` | Start a server (default: first server) | `@wilmoore/dev start frontend` |
+| `stop [server]` | Stop server(s) (default: all) | `@wilmoore/dev stop backend` |
+| `status` | Show running servers with health status | `@wilmoore/dev status` |
+| `port` | Show server ports | `@wilmoore/dev port` |
+| `logs [server]` | Monitor server logs in real-time | `@wilmoore/dev logs api` |
+| `cleanup` | Remove stale entries from PID tracking | `@wilmoore/dev cleanup` |
 
 ### Shortcuts
 
@@ -74,8 +74,8 @@ You can use server names directly as commands:
 
 ```bash
 # These are equivalent
-npx dev start frontend
-npx dev frontend
+npx @wilmoore/dev start frontend
+npx @wilmoore/dev frontend
 ```
 
 ### Configuration
@@ -149,7 +149,7 @@ Here's how to set up a typical full-stack project:
 }
 ```
 
-After running `npx dev init`, you'll get:
+After running `npx @wilmoore/dev init`, you'll get:
 
 ```json
 // .dev/servers.json
@@ -176,13 +176,13 @@ After running `npx dev init`, you'll get:
 
 ```bash
 # Start frontend
-npx dev start dev
+npx @wilmoore/dev start dev
 
 # Start API in another terminal
-npx dev start api
+npx @wilmoore/dev start api
 
 # Check what's running
-npx dev status
+npx @wilmoore/dev status
 # Output:
 # Running servers:
 #   dev: port 3000 (pid 12345) - healthy
@@ -193,14 +193,14 @@ npx dev status
 
 ```bash
 # Use bat for syntax highlighting
-npx dev start frontend --log-viewer "bat -f"
+npx @wilmoore/dev start frontend --log-viewer "bat -f"
 
 # Use less for scrollable logs
-npx dev start api --log-viewer "less +F"
+npx @wilmoore/dev start api --log-viewer "less +F"
 
 # Set default via environment
 export DEV_LOG_VIEWER="bat -f"
-npx dev start
+npx @wilmoore/dev start
 ```
 
 ### Template Variables
@@ -217,7 +217,7 @@ Use `{ROLE}` and `{PORT}` template variables for dynamic configuration:
 }
 ```
 
-When running `npx dev start multi-env`:
+When running `npx @wilmoore/dev start multi-env`:
 - `{ROLE}` becomes `multi-env`
 - `{PORT}` becomes the assigned port (3000 or next available)
 
@@ -227,7 +227,7 @@ The tool automatically handles port conflicts:
 
 ```bash
 # If port 3000 is busy, it tries 3001, 3002, etc.
-npx dev start dev
+npx @wilmoore/dev start dev
 # Started on port 3001 (3000 was busy)
 ```
 
@@ -256,7 +256,7 @@ The tool automatically monitors running processes and cleans up stale entries:
 
 ```bash
 # Check what's running
-npx dev status
+npx @wilmoore/dev status
 
 # Output:
 # Running servers:
@@ -264,10 +264,10 @@ npx dev status
 #   backend: port 3001 (pid 12346) - healthy
 
 # Clean up any stale processes
-npx dev cleanup
+npx @wilmoore/dev cleanup
 
 # Stop all servers
-npx dev stop
+npx @wilmoore/dev stop
 ```
 
 ## 🛠️ Development

@@ -4,6 +4,7 @@ import globals from 'globals';
 export default [
   js.configs.recommended,
   {
+    files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -21,5 +22,9 @@ export default [
       'object-shorthand': 'error',
       'prefer-template': 'error'
     }
+  },
+  {
+    // Skip TypeScript files for now - TypeScript compiler handles type checking
+    ignores: ['**/*.ts', '**/*.d.ts']
   }
 ];
