@@ -1,5 +1,9 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, appendFileSync } from 'fs';
 import path from 'path';
+
+const debugLog = (projectRoot: string, message: string) => {
+  appendFileSync(path.join(projectRoot, 'debug.log'), 'DEBUG LOG ENTRY\n');
+};
 
 export interface ServerConfig {
   command: string;
@@ -33,12 +37,15 @@ export const loadServersConfig = (projectRoot: string): Servers => {
 };
 
 export const initializeDevEnvironment = (projectRoot: string): void => {
+  debugLog(projectRoot, `initializeDevEnvironment called for projectRoot: ${projectRoot}`);
   const serversConfigPath = getServersConfigPath(projectRoot);
+  debugLog(projectRoot, `initializeDevEnvironment: serversConfigPath = ${serversConfigPath}`);
+  debugLog(projectRoot, `initializeDevEnvironment: serversConfigPath exists = ${existsSync(serversConfigPath)}`);
   const pidFilePath = getPidFilePath(projectRoot);
 
   // Check if servers.json already exists
   if (existsSync(serversConfigPath)) {
-    console.error('Error: .dev/servers.json already exists. Remove it first if you want to reinitialize.');
+    debugLog(projectRoot, 'Error: .dev/servers.json already exists. Exiting.');
     process.exit(1);
   }
 
@@ -113,8 +120,8 @@ export const initializeDevEnvironment = (projectRoot: string): void => {
   console.log('✅ Created .dev/log/ directory');
 
   console.log('\nYou can now run:');
-  console.log('  npx dev start        # Start first server');
-  console.log('  npx dev start <name> # Start specific server');
-  console.log('  npx dev status       # Check running servers');
+  console.log('  npx @wilmoore/dev start        # Start first server');
+  console.log('  npx @wilmoore/dev start <name> # Start specific server');
+  console.log('  npx @wilmoore/dev status       # Check running servers');
 };
 
