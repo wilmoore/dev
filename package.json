@@ -1,6 +1,6 @@
 {
   "name": "@wilmoore/dev",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A sophisticated development server management tool with process monitoring, health checks, and log management",
   "keywords": [
     "dev-server",
