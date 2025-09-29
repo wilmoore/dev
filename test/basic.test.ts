@@ -16,21 +16,33 @@ test('dev function exists', async () => {
 test('dev function is async', async () => {
   const { dev } = await import('../dist/index.js');
   assert.strictEqual(typeof dev, 'function');
-  // Check that dev returns a Promise
-  const result = dev();
-  assert.ok(result instanceof Promise);
+  
+  const { originalArgv, originalExit } = mockArgv([]);
+  try {
+    const promiseResult = dev(); // Get the promise
+    assert.ok(promiseResult instanceof Promise, 'dev should return a Promise');
+    await promiseResult; // Await the promise to ensure completion
+    assert.fail('dev should have exited with an error'); // Should not reach here
+  } catch (e) {
+    assert.ok(e.message.includes('process.exit'), 'Expected process.exit error');
+  } finally {
+    process.argv = originalArgv;
+    process.exit = originalExit;
+  }
 });
 
 // Mock process.argv for argument parsing tests
 const mockArgv = (args: string[]) => {
   const originalArgv = process.argv;
+  const originalExit = process.exit; // Save original process.exit
   process.argv = ['node', 'script.js', ...args];
-  return originalArgv;
+  process.exit = (code?: number) => { throw new Error(`process.exit(${code})`); }; // Mock process.exit
+  return { originalArgv, originalExit }; // Return both
 };
 
 test('dev handles help command', async () => {
   const { dev } = await import('../dist/index.js');
-  const originalArgv = mockArgv(['help']);
+  const { originalArgv, originalExit } = mockArgv(['help']);
   
   try {
     await dev();
@@ -41,12 +53,13 @@ test('dev handles help command', async () => {
     assert.fail('Help command should not throw an error');
   } finally {
     process.argv = originalArgv;
+    process.exit = originalExit; // Restore process.exit
   }
 });
 
 test('dev handles status command', async () => {
   const { dev } = await import('../dist/index.js');
-  const originalArgv = mockArgv(['status']);
+  const { originalArgv, originalExit } = mockArgv(['status']);
   
   try {
     await dev();
@@ -57,12 +70,13 @@ test('dev handles status command', async () => {
     assert.fail('Status command should not throw an error');
   } finally {
     process.argv = originalArgv;
+    process.exit = originalExit; // Restore process.exit
   }
 });
 
 test('dev handles port command', async () => {
   const { dev } = await import('../dist/index.js');
-  const originalArgv = mockArgv(['port']);
+  const { originalArgv, originalExit } = mockArgv(['port']);
   
   try {
     await dev();
@@ -73,12 +87,13 @@ test('dev handles port command', async () => {
     assert.fail('Port command should not throw an error');
   } finally {
     process.argv = originalArgv;
+    process.exit = originalExit; // Restore process.exit
   }
 });
 
 test('dev handles cleanup command', async () => {
   const { dev } = await import('../dist/index.js');
-  const originalArgv = mockArgv(['cleanup']);
+  const { originalArgv, originalExit } = mockArgv(['cleanup']);
   
   try {
     await dev();
@@ -89,18 +104,15 @@ test('dev handles cleanup command', async () => {
     assert.fail('Cleanup command should not throw an error');
   } finally {
     process.argv = originalArgv;
+    process.exit = originalExit; // Restore process.exit
   }
 });
 
 test('dev handles init command', async () => {
   const { dev } = await import('../dist/index.js');
-  const originalArgv = mockArgv(['init']);
+  const { originalArgv, originalExit } = mockArgv(['init']); // Call mockArgv
   
   try {
-    // Mock process.exit to prevent actual exit
-    const originalExit = process.exit;
-    process.exit = (code?: number) => { throw new Error(`process.exit(${code})`); };
-    
     try {
       await dev();
     } catch (e) {
@@ -108,12 +120,10 @@ test('dev handles init command', async () => {
       assert.ok(e.message.includes('process.exit') || e.message.includes('already exists'));
     }
     
-    // Restore process.exit
-    process.exit = originalExit;
-    
     // Init command should handle errors gracefully
     assert.ok(true, 'Init command handled properly');
   } finally {
     process.argv = originalArgv;
+    process.exit = originalExit; // Restore process.exit
   }
 });
