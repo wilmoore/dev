@@ -2,8 +2,8 @@
 
 import { dev } from '../dist/dev.js';
 
-const projectRoot = process.argv[2]; // projectRoot is the first argument after 'bin/dev'
-const cliArgs = process.argv.slice(3); // Actual CLI arguments start from the third position
+const projectRoot = process.cwd(); // projectRoot is the current working directory
+const cliArgs = process.argv.slice(2); // Actual CLI arguments start from the second position
 
 // Temporarily set process.argv for parseArguments
 const originalArgv = process.argv;
