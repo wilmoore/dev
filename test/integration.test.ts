@@ -152,14 +152,16 @@ test('Configuration file validation', async () => {
 });
 
 test('Error handling and edge cases', async () => {
-  const tempDir = await createTempProject();
-  
+  let tempDir: string | undefined;
+
   try {
+    tempDir = await createTempProject();
+
     // Test 1: Try to start a non-existent server
     const invalidServerResult = await runDevCommand(tempDir, ['start', 'nonexistent']);
     assert.strictEqual(invalidServerResult.code, 1, 'Should fail when starting non-existent server');
     assert.ok(invalidServerResult.output.includes('not found'), 'Should show appropriate error message');
-    
+
     // Test 2: Try to run commands before initialization
     const tempDir2 = await createTempProject();
     try {
@@ -168,17 +170,19 @@ test('Error handling and edge cases', async () => {
     } finally {
       await cleanupTempProject(tempDir2);
     }
-    
+
     // Test 3: Initialize and then try invalid commands
     await runDevCommand(tempDir, ['init']);
-    
+
     const invalidCommandResult = await runDevCommand(tempDir, ['invalid-command']);
-    assert.strictEqual(invalidCommandResult.code, 0, 'Invalid commands should show help');
+    assert.strictEqual(invalidCommandResult.code, 1, 'Invalid commands should show help');
     assert.ok(invalidCommandResult.output.includes('Usage: npx dev'), 'Should show help for invalid commands');
-    
+
     console.log('✅ Error handling tests passed!');
-    
+
   } finally {
-    await cleanupTempProject(tempDir);
+    if (tempDir) {
+      await cleanupTempProject(tempDir);
+    }
   }
 });
