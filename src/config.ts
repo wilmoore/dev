@@ -120,8 +120,9 @@ export const initializeDevEnvironment = (projectRoot: string): void => {
   console.log('✅ Created .dev/log/ directory');
 
   console.log('\nYou can now run:');
-  console.log('  npx @wilmoore/dev start        # Start first server');
-  console.log('  npx @wilmoore/dev start <name> # Start specific server');
+  for (const serverName of Object.keys(inferredServers)) {
+    console.log(`  npm run ${serverName} # Start ${serverName} server`);
+  }
   console.log('  npx @wilmoore/dev status       # Check running servers');
 };
 
