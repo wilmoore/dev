@@ -114,7 +114,7 @@ const startServer = async (projectRoot: string, serverName: string, logViewerCmd
     console.log(`Started process with PID: ${child.pid}`);
 
     // Wait for startup
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
     // Try to detect actual port by checking what's listening
     port = await detectPortFromProcess(child.pid, port);
