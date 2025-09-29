@@ -2,12 +2,4 @@
 
 import { dev } from '../dist/dev.js';
 
-const cliArgs = process.argv.slice(2); // Actual CLI arguments start from the second position
-
-// Temporarily set process.argv for parseArguments
-const originalArgv = process.argv;
-process.argv = ['node', 'script.js', ...cliArgs]; // Mock process.argv for parseArguments
-
-dev(); // Call dev without projectRoot, it will default to process.cwd()
-
-process.argv = originalArgv; // Restore original process.argv
+dev();

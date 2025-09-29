@@ -45,8 +45,8 @@ const runDevCommand = async (tempDir: string, args: string[]): Promise<{ code: n
 
   const tsNodePath = path.resolve(process.cwd(), 'node_modules/.bin/ts-node');
   const binDevPath = path.resolve(process.cwd(), 'bin/dev');
-  const child = spawn(tsNodePath, [binDevPath, tempDir, ...args], {
-    cwd: process.cwd(), // Run from project root
+  const child = spawn(tsNodePath, [binDevPath, ...args], {
+    cwd: tempDir, // Run from tempDir
     shell: true,
   });
 
