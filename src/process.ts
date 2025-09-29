@@ -52,13 +52,22 @@ export const findFreePort = async (startPort: number): Promise<number> => {
   throw new Error(`No free port found starting from ${startPort}`);
 };
 
-export const detectPortFromProcess = async (pid: number, fallbackPort: number): Promise<number> => {
+export const detectPortFromProcess = async (pid: number, fallbackPort: number, processOutput: string): Promise<number> => {
+  // Try to parse port from processOutput first
+  const portFromOutputMatch = processOutput.match(/(?:http|https):\/\/[^\s]*:(\d+)/);
+  if (portFromOutputMatch) {
+    const detectedPort = parseInt(portFromOutputMatch[1]);
+    console.log(`Detected server running on port ${detectedPort} from process output`);
+    return detectedPort;
+  }
+
+  // Fallback to lsof if not found in output
   try {
     const { stdout } = await execAsync(`lsof -i -P -n | grep ${pid} | grep LISTEN`);
     const portMatch = stdout.match(/:(\d+)\s+\(LISTEN\)/);
     if (portMatch) {
       const detectedPort = parseInt(portMatch[1]);
-      console.log(`Detected server running on port ${detectedPort}`);
+      console.log(`Detected server running on port ${detectedPort} from lsof`);
       return detectedPort;
     }
   } catch (_e) {
@@ -67,7 +76,7 @@ export const detectPortFromProcess = async (pid: number, fallbackPort: number): 
   return fallbackPort;
 };
 
-export const startProcess = async (projectRoot: string, command: string, _serverName: string): Promise<ChildProcess> => {
+export const startProcess = async (projectRoot: string, command: string, _serverName: string): Promise<{ child: ChildProcess, output: string }> => {
   const devDir = getDevDir(projectRoot);
   // Ensure log directory exists
   const logDir = path.join(devDir, 'log');
@@ -75,15 +84,24 @@ export const startProcess = async (projectRoot: string, command: string, _server
     mkdirSync(logDir, { recursive: true });
   }
 
+  let output = '';
   // Start process using shell to handle redirection
   const child = spawn('sh', ['-c', command], {
     detached: true,
-    stdio: 'ignore',
+    stdio: ['ignore', 'pipe', 'pipe'], // Capture stdout and stderr
     cwd: projectRoot
   });
 
+  child.stdout.on('data', (data) => {
+    output += data.toString();
+  });
+
+  child.stderr.on('data', (data) => {
+    output += data.toString();
+  });
+
   child.unref();
-  return child;
+  return { child, output };
 };
 
 export const stopServers = async (projectRoot: string, serverName: string | null = null): Promise<void> => {

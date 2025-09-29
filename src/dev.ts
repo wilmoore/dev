@@ -104,7 +104,7 @@ const startServer = async (projectRoot: string, serverName: string, logViewerCmd
     console.log(`Starting ${serverName}...`);
     console.log(`Command: ${command}`);
 
-    const child = await startProcess(projectRoot, command, serverName);
+    const { child, output } = await startProcess(projectRoot, command, serverName); // Destructure child and output
 
     if (typeof child.pid !== 'number') {
       console.error(`Failed to start process for ${serverName}`);
@@ -117,7 +117,7 @@ const startServer = async (projectRoot: string, serverName: string, logViewerCmd
     await new Promise(resolve => setTimeout(resolve, 10000));
 
     // Try to detect actual port by checking what's listening
-    port = await detectPortFromProcess(child.pid, port);
+    port = await detectPortFromProcess(child.pid, port, output); // Pass output to detectPortFromProcess
 
     // Health check
     const healthUrl = server.healthCheck.replace('{PORT}', port.toString()).replace(/{ROLE}/g, serverName);
