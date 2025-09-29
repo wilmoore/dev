@@ -73,7 +73,6 @@ test('Core dev tool workflow integration test', async () => {
   try {
     // Test 1: Initialize the dev environment
     const initResult = await runDevCommand(tempDir, ['init']);
-    console.log('initResult.output:', initResult.output);
     assert.strictEqual(initResult.code, 0, 'Init command should succeed');
     
     // Verify .dev directory was created
@@ -103,17 +102,6 @@ test('Core dev tool workflow integration test', async () => {
     
     // Test 4: Test cleanup command
   } finally {
-    try {
-      const debugLogPath = path.join(tempDir, 'debug.log');
-      if (await fs.access(debugLogPath).then(() => true).catch(() => false)) {
-        const debugLogContent = await fs.readFile(debugLogPath, 'utf8');
-        console.log(`--- debug.log content for ${tempDir} ---\n${debugLogContent}--- End debug.log ---\n`);
-      } else {
-        console.log(`debug.log not found in ${tempDir}`);
-      }
-    } catch (e) {
-      console.error(`Error reading debug.log: ${e}`);
-    }
     await cleanupTempProject(tempDir);
   }
 });
@@ -182,24 +170,12 @@ test.skip('Error handling and edge cases', async () => {
     await runDevCommand(tempDir, ['init']);
 
     const invalidCommandResult = await runDevCommand(tempDir, ['invalid-command']);
-    console.log('invalidCommandResult.output:', invalidCommandResult.output);
     assert.strictEqual(invalidCommandResult.code, 1, 'Invalid commands should show help');
     assert.ok(invalidCommandResult.output.includes('Usage: npx dev'), 'Should show help for invalid commands');
 
     console.log('✅ Error handling tests passed!');
 
   } finally {
-    try {
-      const debugLogPath = path.join(tempDir, 'debug.log');
-      if (await fs.access(debugLogPath).then(() => true).catch(() => false)) {
-        const debugLogContent = await fs.readFile(debugLogPath, 'utf8');
-        console.log('--- debug.log content for ' + tempDir + '---\n' + debugLogContent + '--- End debug.log ---');
-      } else {
-        console.log('debug.log not found in ' + tempDir);
-      }
-    } catch (e) {
-      console.error('Error reading debug.log: ' + e);
-    }
     if (tempDir) {
       await cleanupTempProject(tempDir);
     }
