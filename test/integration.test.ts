@@ -44,8 +44,8 @@ const runDevCommand = async (tempDir: string, args: string[]): Promise<{ code: n
   let code = 0;
 
   const tsNodePath = path.resolve(process.cwd(), 'node_modules/.bin/ts-node');
-  const child = spawn(tsNodePath, ['bin/dev', ...args], {
-    cwd: tempDir,
+  const child = spawn(tsNodePath, ['bin/dev', tempDir, ...args], {
+    cwd: process.cwd(), // Run from project root
     shell: true,
   });
 
@@ -73,6 +73,7 @@ test('Core dev tool workflow integration test', async () => {
   try {
     // Test 1: Initialize the dev environment
     const initResult = await runDevCommand(tempDir, ['init']);
+    console.log('initResult.output:', initResult.output);
     assert.strictEqual(initResult.code, 0, 'Init command should succeed');
     
     // Verify .dev directory was created
@@ -102,6 +103,17 @@ test('Core dev tool workflow integration test', async () => {
     
     // Test 4: Test cleanup command
   } finally {
+    try {
+      const debugLogPath = path.join(tempDir, 'debug.log');
+      if (await fs.access(debugLogPath).then(() => true).catch(() => false)) {
+        const debugLogContent = await fs.readFile(debugLogPath, 'utf8');
+        console.log('--- debug.log content for ' + tempDir + '---\n' + debugLogContent + '--- End debug.log ---');
+      } else {
+        console.log('debug.log not found in ' + tempDir);
+      }
+    } catch (e) {
+      console.error('Error reading debug.log: ' + e);
+    }
     await cleanupTempProject(tempDir);
   }
 });
