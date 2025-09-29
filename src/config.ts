@@ -66,7 +66,7 @@ export const initializeDevEnvironment = (projectRoot: string): void => {
   const scripts = packageJson.scripts || {};
 
   // Define patterns to detect server scripts
-  const serverPatterns: string[] = ['dev', 'start', 'serve', 'preview'];
+  const serverPatterns: string[] = ['dev'];
   const inferredServers: Servers = {};
   let portCounter = 3000;
 
