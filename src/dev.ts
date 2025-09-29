@@ -249,11 +249,8 @@ export const dev = async (projectRoot: string = process.cwd()): Promise<void> =>
       break;
 
     default:
-      if (command && !['start', 'stop', 'status', 'port', 'logs', 'cleanup', 'init', 'help'].includes(command)) {
-        const logViewerCommand = getLogViewerCommand(logViewer);
-        await startServer(projectRoot, command, logViewerCommand);
-      } else {
-        showHelp();
-      }
+      // If command is not recognized, show help and exit with error
+      showHelp();
+      process.exit(1);
   }
 };
