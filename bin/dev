@@ -2,13 +2,13 @@
 
 import { dev } from '../dist/dev.js';
 
-const projectRoot = process.cwd(); // projectRoot is the current working directory
-const cliArgs = process.argv.slice(2); // Actual CLI arguments start from the second position
+const devProjectRoot = process.argv[2]; // This is the tempDir passed from runDevCommand
+const cliArgs = process.argv.slice(3); // Actual CLI arguments start from the third position
 
 // Temporarily set process.argv for parseArguments
 const originalArgv = process.argv;
 process.argv = ['node', 'script.js', ...cliArgs]; // Mock process.argv for parseArguments
 
-dev(projectRoot);
+dev(devProjectRoot); // Pass the tempDir as projectRoot
 
 process.argv = originalArgv; // Restore original process.argv
