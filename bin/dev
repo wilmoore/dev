@@ -1,5 +1,0 @@
-#!/usr/bin/env ts-node
-
-import { dev } from '../dist/dev.js';
-
-dev();

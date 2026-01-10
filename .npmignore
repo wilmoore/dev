@@ -1,23 +1,14 @@
 # Development files
-.eslintrc.json
 .prettierrc
 .gitignore
 .git/
 .github/
 
-# Tests
-test/
-coverage/
-
-# Development dependencies
-*.test.js
-*.spec.js
+# Planning directory
+.plan/
 
 # Documentation build
 docs/
-
-# Examples (included in npm package via files field)
-# examples/
 
 # Development logs
 *.log
@@ -41,3 +32,7 @@ Thumbs.db
 # Temporary files
 .tmp/
 temp/
+
+# Development runtime files
+.dev/pid.json
+.dev/log/

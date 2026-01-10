@@ -4,43 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is `dev` - a sophisticated development server management tool with process monitoring, health checks, and log management. It's a CLI tool built with TypeScript that helps developers manage multiple development servers in a single project.
+This is `@wilmoore/dev` - a development server management tool with process monitoring, health checks, and log management. It's a CLI tool built with TypeScript that helps developers manage multiple development servers in a single project.
 
-## Common Development Commands
+## Common Commands
 
-### Build and Development
-- `npm run build` - Build the TypeScript project using tsconfig.build.json
-- `npm start` - Run the dev tool directly
+```bash
+# Run the dev tool
+npm start
 
-### Testing
-- `npm test` - Run both basic and integration tests
-- `npm run test:basic` - Run basic tests only (test/basic.test.ts)
-- `npm run test:integration` - Run integration tests only (test/integration.test.ts)
-- `npm run test:watch` - Run tests in watch mode
-
-### Code Quality
-- `npm run lint` - Lint TypeScript files in src/, bin/, and test/ directories
-- `npm run lint:fix` - Auto-fix linting issues
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
-
-### Documentation
-- `npm run docs:generate` - Generate documentation (via scripts/generate-docs.js)
-
-### Release Process
-- `npm run prepublishOnly` - Build, lint, and test before publishing (runs automatically)
+# Format code
+npm run format
+npm run format:check
+```
 
 ## Architecture
 
-The codebase follows a modular architecture with clear separation of concerns:
+The codebase is a self-contained TypeScript CLI:
 
-### Core Modules (`src/`)
-- **`dev.ts`** - Main orchestrator and CLI command handler, contains argument parsing and command routing
-- **`config.ts`** - Configuration management for servers.json and project initialization
-- **`process.ts`** - Process lifecycle management including starting, stopping, and monitoring servers
-- **`log.ts`** - Log handling and viewer integration
-- **`health.ts`** - Server health verification via HTTP checks
-- **`index.ts`** - Public API exports
+### Core Files (`bin/`)
+- **`dev.ts`** - Main CLI script (~1200 lines, all-in-one)
+- **`notify.ts`** - Native OS notification utility using node-notifier
 
 ### Key Concepts
 
@@ -61,37 +44,31 @@ The codebase follows a modular architecture with clear separation of concerns:
 
 ### File Structure
 ```
-src/
-├── dev.ts        # Main CLI orchestrator
-├── config.ts     # Configuration and initialization
-├── process.ts    # Process lifecycle management
-├── log.ts        # Log handling
-├── health.ts     # Health checking
-└── index.ts      # API exports
+bin/
+├── dev.ts        # Main CLI script
+└── notify.ts     # Notification utility
 
-bin/dev           # Executable entry point
-test/             # Basic and integration tests
+assets/
+└── logo-banner.png  # Logo for README and notifications
+
+.dev/             # Runtime directory (created in target projects)
+├── servers.json  # Server configuration (tracked in git)
+├── pid.json      # Process tracking (gitignored)
+└── log/          # Log files (gitignored)
 ```
-
-## Testing Framework
-
-Uses custom test runner with ts-node, not Jest or other frameworks. Tests are in:
-- `test/basic.test.ts` - Basic functionality tests
-- `test/integration.test.ts` - Integration tests
 
 ## Development Notes
 
 - Built for Node.js >= 18.0.0
 - Targets macOS and Linux platforms only
 - Uses ES modules (type: "module" in package.json)
-- TypeScript with multiple tsconfig files for different contexts
-- No external runtime dependencies (built with Node.js built-ins only)
-- Global installation preferred (`preferGlobal: true`)
+- Runs TypeScript directly via `tsx` (no compilation step)
+- Dependencies: `node-notifier` for OS notifications, `tsx` for TypeScript execution
 
 ## Key Implementation Details
 
 - Server commands are executed via shell (`sh -c`) to handle redirection
 - Process detection uses `ps` and `lsof` commands for Unix-like systems
-- Health checks are HTTP-based with configurable endpoints
+- Health checks are HTTP-based with configurable endpoints and exponential backoff
 - Port detection attempts to discover actual listening ports from running processes
-- Template variable replacement for dynamic configuration
+- Process tree killing ensures all child processes are cleaned up

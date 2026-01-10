@@ -99,5 +99,9 @@ public
 # TernJS port file
 .tern-port
 
-# Development server files
-.dev/
+# Development server runtime files (config tracked separately)
+.dev/pid.json
+.dev/log/
+
+# Planning directory
+.plan/

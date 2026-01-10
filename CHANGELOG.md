@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-01-09
+
+### Changed
+- **Breaking**: Complete architecture rewrite - now a self-contained TypeScript CLI
+- **Breaking**: Switched from compiled output to running TypeScript directly via `tsx`
+- **Breaking**: Removed modular `src/` architecture in favor of single `bin/dev.ts`
+- Updated to use `tsx` instead of `ts-node` for TypeScript execution
+- Simplified package structure for easier maintenance
+
+### Added
+- Native OS notifications via `node-notifier` for server events
+- `doctor` command for environment diagnostics
+- `restart` command for quick server restarts
+- Network IP display in status output for mobile/device testing
+- Process tree killing for cleaner shutdown of spawned processes
+- Exponential backoff for health checks
+
+### Removed
+- Compiled `dist/` output (no build step required)
+- Modular `src/` directory (consolidated into `bin/dev.ts`)
+- Test suite (tests were for old architecture)
+
 ## [1.0.0] - 2024-09-19
 
 ### Added
