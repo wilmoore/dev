@@ -1,85 +1,74 @@
-# dev
+<div align="center">
+
+![dev](./assets/logo-banner.png)
 
 [![npm version](https://badge.fury.io/js/@wilmoore%2Fdev.svg)](https://badge.fury.io/js/@wilmoore%2Fdev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)](https://github.com/wilmoore/dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> A sophisticated development server management tool with process monitoring, health checks, and log management.
+**Manage multiple dev servers with health checks, port handling, and unified logs.**
 
-![Logo Banner](./assets/logo-banner.png)
+</div>
+
+---
 
 ## Features
 
-- **Intelligent Server Management** - Start, stop, and monitor multiple development servers
-- **Process Monitoring** - Real-time health checks and PID tracking
-- **Port Management** - Automatic port conflict resolution and detection
-- **Log Management** - Centralized logging with real-time log viewing
-- **Auto-Configuration** - Automatically infers server configurations from package.json
-- **Native Notifications** - OS-level notifications for server events
-- **Process Cleanup** - Automatic cleanup of stale processes
-- **Log Viewer Integration** - Customizable log viewers (tail, bat, etc.)
+- Start, stop, and monitor multiple servers from one command
+- Health checks with automatic retry and status reporting
+- Port conflict resolution — finds the next available port
+- Centralized logs in `.dev/log/` with configurable viewers
+- Auto-configuration from `package.json` scripts
+- Native OS notifications for server events
+- Automatic cleanup of stale processes
+
+## Why dev?
+
+Most projects juggle multiple servers: frontend, backend, workers. Running them manually means scattered terminals, forgotten processes, and port conflicts. `dev` gives you a single command to start everything, track what's running, and view logs in one place.
 
 ## Quick Start
-
-### Installation
 
 ```bash
 # Install globally
 npm install -g @wilmoore/dev
 
-# Or use with npx (recommended)
+# Or run directly with npx
 npx @wilmoore/dev init
 ```
 
-### Basic Usage
+Initialize in your project, then start:
 
 ```bash
-# Initialize in your project
-npx dev init
-
-# Start the first configured server
-npx dev start
-
-# Start a specific server
-npx dev start frontend
-
-# Check running servers
-npx dev status
-
-# View logs
-npx dev logs
-
-# Stop all servers
-npx dev stop
+npx dev init      # Creates .dev/servers.json from package.json
+npx dev start     # Starts the first configured server
+npx dev status    # Shows running servers
+npx dev logs      # Follows logs in real-time
+npx dev stop      # Stops all servers
 ```
 
 ## Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `init` | Initialize .dev directory from package.json | `npx dev init` |
-| `start [server]` | Start a server (default: first server) | `npx dev start frontend` |
-| `stop [server]` | Stop server(s) (default: all) | `npx dev stop backend` |
-| `restart [server]` | Restart a server | `npx dev restart api` |
-| `status` | Show running servers with health status | `npx dev status` |
-| `logs [server]` | Follow server logs in real-time | `npx dev logs api` |
-| `doctor` | Diagnose environment and show configuration | `npx dev doctor` |
-| `cleanup` | Remove stale entries from PID tracking | `npx dev cleanup` |
+| Command            | Description                                    | Example                  |
+| ------------------ | ---------------------------------------------- | ------------------------ |
+| `init`             | Initialize `.dev/` directory from package.json | `npx dev init`           |
+| `start [server]`   | Start a server (default: first)                | `npx dev start frontend` |
+| `stop [server]`    | Stop server(s) (default: all)                  | `npx dev stop backend`   |
+| `restart [server]` | Restart a server                               | `npx dev restart api`    |
+| `status`           | Show running servers with health status        | `npx dev status`         |
+| `logs [server]`    | Follow server logs                             | `npx dev logs api`       |
+| `doctor`           | Diagnose environment and configuration         | `npx dev doctor`         |
+| `cleanup`          | Remove stale PID entries                       | `npx dev cleanup`        |
 
-### Shortcuts
-
-You can use server names directly as commands:
+**Shortcut:** Use server names directly as commands:
 
 ```bash
-# These are equivalent
-npx dev start frontend
-npx dev frontend
+npx dev frontend   # Same as: npx dev start frontend
 ```
 
 ## Configuration
 
-The tool automatically creates a `.dev/servers.json` configuration file:
+The `init` command creates `.dev/servers.json`:
 
 ```json
 {
@@ -96,95 +85,81 @@ The tool automatically creates a `.dev/servers.json` configuration file:
 }
 ```
 
-### Configuration Options
+### Options
 
-- **command**: Shell command to start the server
-  - `{PORT}`: Replaced with the assigned port
-  - `{ROLE}`: Replaced with the server name
-- **preferredPort**: Starting port number (auto-increments if busy)
-- **healthCheck**: URL for health checking the server
+| Key             | Description                                                      |
+| --------------- | ---------------------------------------------------------------- |
+| `command`       | Shell command to run. Use `{PORT}` and `{ROLE}` as placeholders. |
+| `preferredPort` | Starting port. Auto-increments if busy.                          |
+| `healthCheck`   | URL to poll until the server responds.                           |
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `DEV_LOG_VIEWER` | Default log viewer command | `tail -f` |
-| `ENABLE_NOTIFICATIONS` | Enable/disable OS notifications | `true` |
-
-### CLI Options
-
-| Option | Description | Example |
-|--------|-------------|---------|
-| `--log-viewer "cmd"` | Custom log viewer command | `--log-viewer "bat -f"` |
-
-## Project Structure
-
-After initialization, your project will have:
-
-```
-your-project/
-├── .dev/
-│   ├── servers.json    # Server configurations (tracked in git)
-│   ├── pid.json        # Running process tracking (gitignored)
-│   └── log/            # Server log files (gitignored)
-│       ├── frontend.log
-│       └── backend.log
-└── package.json
-```
+| Variable               | Description              | Default   |
+| ---------------------- | ------------------------ | --------- |
+| `DEV_LOG_VIEWER`       | Command for viewing logs | `tail -f` |
+| `ENABLE_NOTIFICATIONS` | Enable OS notifications  | `true`    |
 
 ## Advanced Usage
 
 ### Custom Log Viewers
 
 ```bash
-# Use bat for syntax highlighting
-npx dev start frontend --log-viewer "bat -f"
+npx dev logs --log-viewer "bat -f"      # Syntax highlighting
+npx dev logs --log-viewer "less +F"     # Scrollable
 
-# Use less for scrollable logs
-npx dev start api --log-viewer "less +F"
-
-# Set default via environment
+# Or set a default
 export DEV_LOG_VIEWER="bat -f"
-npx dev start
 ```
 
 ### Template Variables
 
-Use `{ROLE}` and `{PORT}` template variables for dynamic configuration:
+Use `{PORT}` and `{ROLE}` for dynamic values:
 
 ```json
 {
-  "multi-env": {
-    "command": "NODE_ENV={ROLE} npm start --port {PORT} > .dev/log/{ROLE}.log 2>&1",
-    "preferredPort": 3000,
+  "worker": {
+    "command": "NODE_ENV={ROLE} node worker.js --port {PORT} > .dev/log/{ROLE}.log 2>&1",
+    "preferredPort": 4000,
     "healthCheck": "http://localhost:{PORT}/health"
   }
 }
 ```
 
-### Port Management
+### Port Handling
 
-The tool automatically handles port conflicts:
+If the preferred port is busy, `dev` tries the next one:
 
-```bash
-# If port 3000 is busy, it tries 3001, 3002, etc.
-npx dev start dev
-# Started on port 3001 (3000 was busy)
+```
+$ npx dev start api
+Started api on port 3001 (3000 was busy)
 ```
 
-### Disabling Notifications
+### Disable Notifications
 
 ```bash
-# Disable OS notifications
 ENABLE_NOTIFICATIONS=false npx dev start
+```
+
+## Project Structure
+
+After initialization:
+
+```
+your-project/
+├── .dev/
+│   ├── servers.json    # Server config (commit this)
+│   ├── pid.json        # Process tracking (gitignored)
+│   └── log/            # Log files (gitignored)
+└── package.json
 ```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
 <div align="center">
-  <strong>Made with care for developers who love efficient workflows</strong>
+  <strong>Built for developers who value efficient workflows.</strong>
 </div>

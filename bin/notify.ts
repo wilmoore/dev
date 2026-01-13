@@ -3,18 +3,18 @@
  * Uses node-notifier for native OS notifications
  */
 
-import path from 'path'
-import { fileURLToPath } from 'url'
-import notifier from 'node-notifier'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import notifier from 'node-notifier';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export type NotificationLevel = 'info' | 'success' | 'warning' | 'error'
+export type NotificationLevel = 'info' | 'success' | 'warning' | 'error';
 
 export interface NotificationOptions {
-  title: string
-  message: string
-  level?: NotificationLevel
+  title: string;
+  message: string;
+  level?: NotificationLevel;
 }
 
 /**
@@ -22,13 +22,13 @@ export interface NotificationOptions {
  * Can be disabled by setting ENABLE_NOTIFICATIONS=false
  */
 export function notify(options: NotificationOptions): void {
-  const enabled = process.env.ENABLE_NOTIFICATIONS !== 'false'
+  const enabled = process.env.ENABLE_NOTIFICATIONS !== 'false';
 
   if (!enabled) {
-    return
+    return;
   }
 
-  const { title, message, level = 'info' } = options
+  const { title, message, level = 'info' } = options;
 
   // Add emoji prefix based on level
   const prefix = {
@@ -36,7 +36,7 @@ export function notify(options: NotificationOptions): void {
     success: '✅',
     warning: '⚠️',
     error: '❌',
-  }[level]
+  }[level];
 
   notifier.notify({
     title,
@@ -47,33 +47,33 @@ export function notify(options: NotificationOptions): void {
     // Wait for notification to be dismissed or timeout
     wait: false,
     timeout: 5,
-  })
+  });
 }
 
 /**
  * Convenience method for info notifications
  */
 export function notifyInfo(title: string, message: string): void {
-  notify({ title, message, level: 'info' })
+  notify({ title, message, level: 'info' });
 }
 
 /**
  * Convenience method for success notifications
  */
 export function notifySuccess(title: string, message: string): void {
-  notify({ title, message, level: 'success' })
+  notify({ title, message, level: 'success' });
 }
 
 /**
  * Convenience method for warning notifications
  */
 export function notifyWarning(title: string, message: string): void {
-  notify({ title, message, level: 'warning' })
+  notify({ title, message, level: 'warning' });
 }
 
 /**
  * Convenience method for error notifications
  */
 export function notifyError(title: string, message: string): void {
-  notify({ title, message, level: 'error' })
+  notify({ title, message, level: 'error' });
 }

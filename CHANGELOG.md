@@ -5,9 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-01-12
+
+### Added
+
+- **Testing infrastructure**: Comprehensive test suite using Vitest
+  - Unit tests for pure functions (sanitizeServerName, parseArguments, detectPortFromOutput, getLogViewerCommand)
+  - Integration tests for config loading and health checks
+  - E2E tests for CLI commands and workflows
+- **CI/CD pipeline**: GitHub Actions workflow for automated testing
+  - Matrix testing on Ubuntu and macOS
+  - Node.js 18, 20, 22 support
+  - Code coverage reporting via Codecov
+- **Test utilities**: Helper modules for CLI execution, mock servers, and temp project setup
+- **ADR-002**: Architecture Decision Record documenting the Vitest testing strategy
+
+### Changed
+
+- Updated CLAUDE.md formatting for consistency
+
 ## [2.0.0] - 2026-01-09
 
 ### Changed
+
 - **Breaking**: Complete architecture rewrite - now a self-contained TypeScript CLI
 - **Breaking**: Switched from compiled output to running TypeScript directly via `tsx`
 - **Breaking**: Removed modular `src/` architecture in favor of single `bin/dev.ts`
@@ -15,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Simplified package structure for easier maintenance
 
 ### Added
+
 - Native OS notifications via `node-notifier` for server events
 - `doctor` command for environment diagnostics
 - `restart` command for quick server restarts
@@ -23,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exponential backoff for health checks
 
 ### Removed
+
 - Compiled `dist/` output (no build step required)
 - Modular `src/` directory (consolidated into `bin/dev.ts`)
 - Test suite (tests were for old architecture)
@@ -30,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-09-19
 
 ### Added
+
 - Initial release of dev
 - Core server lifecycle management (start, stop, status)
 - Process monitoring with PID tracking
@@ -44,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation and examples
 
 ### Features
+
 - **Commands**: init, start, stop, status, port, logs, cleanup
 - **Configuration**: JSON-based server configuration
 - **Monitoring**: Real-time process health monitoring
@@ -56,6 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Platform Support**: macOS and Linux
 
 ### Technical Details
+
 - Built with ES modules
 - Requires Node.js >=18.0.0
 - Uses child_process, fs, path, and util built-ins

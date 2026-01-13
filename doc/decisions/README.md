@@ -19,3 +19,4 @@ We use the [Michael Nygard format](https://cognitect.com/blog/2011/11/15/documen
 ## Index
 
 - [001. Single-file TypeScript CLI Architecture](001-single-file-typescript-cli-architecture.md)
+- [002. Vitest Testing Strategy](002-vitest-testing-strategy.md)

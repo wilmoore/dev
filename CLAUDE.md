@@ -22,27 +22,32 @@ npm run format:check
 The codebase is a self-contained TypeScript CLI:
 
 ### Core Files (`bin/`)
+
 - **`dev.ts`** - Main CLI script (~1200 lines, all-in-one)
 - **`notify.ts`** - Native OS notification utility using node-notifier
 
 ### Key Concepts
 
 #### Server Configuration
+
 - Servers are defined in `.dev/servers.json` with command, preferredPort, and healthCheck
 - Template variables: `{PORT}` for dynamic port assignment, `{ROLE}` for server name
 - Automatic server inference from package.json scripts during `init`
 
 #### Process Management
+
 - PID tracking in `.dev/pid.json` with port, startTime, and status
 - Automatic port conflict resolution (tries ports sequentially)
 - Health checks before marking servers as successfully started
 - Process cleanup and stale entry detection
 
 #### Log Management
+
 - Centralized logging in `.dev/log/` directory
 - Configurable log viewers via `--log-viewer` flag or `DEV_LOG_VIEWER` environment variable
 
 ### File Structure
+
 ```
 bin/
 ├── dev.ts        # Main CLI script
