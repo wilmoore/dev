@@ -18,6 +18,9 @@ describe('Error Handling', () => {
   let originalPidFile: string | null = null;
 
   beforeAll(async () => {
+    // Ensure .dev directory exists (may not exist in CI)
+    await fs.mkdir(devDir, { recursive: true });
+
     try {
       originalServersConfig = await fs.readFile(serversConfigPath, 'utf-8');
     } catch {

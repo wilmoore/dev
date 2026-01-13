@@ -22,6 +22,9 @@ describe('CLI Workflow E2E', () => {
 
   // Backup once before all tests
   beforeAll(async () => {
+    // Ensure .dev directory exists (may not exist in CI)
+    await fs.mkdir(devDir, { recursive: true });
+
     try {
       originalServersConfig = await fs.readFile(serversConfigPath, 'utf-8');
     } catch {
