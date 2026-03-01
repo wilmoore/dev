@@ -18,5 +18,8 @@ We use the [Michael Nygard format](https://cognitect.com/blog/2011/11/15/documen
 
 ## Index
 
-- [001. Single-file TypeScript CLI Architecture](001-single-file-typescript-cli-architecture.md)
-- [002. Vitest Testing Strategy](002-vitest-testing-strategy.md)
+<!-- New ADRs added below -->
+
+- [001. Version Bumping Strategy](001-version-bumping-strategy.md)
+- [002. Git Tag Pushing Strategy](002-git-tag-pushing-strategy.md)
+- [003. Pre-Publish Build and Test Gate](003-pre-publish-build-and-test-gate.md)
